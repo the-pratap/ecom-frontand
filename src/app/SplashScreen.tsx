@@ -3,11 +3,11 @@ import {
   View,
   Text,
   StyleSheet,
-  SafeAreaView,
   StatusBar,
   ActivityIndicator,
   TouchableOpacity,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { router, Stack } from 'expo-router';
 import { useShop } from './ShopStore';
 
@@ -23,13 +23,13 @@ export default function SplashScreen() {
     const t2 = setTimeout(() => {
       if (shop.isAuthenticated && shop.user?.role === 'admin') {
         setStatusText('Welcome Administrator! Launching Portal...');
-        setTimeout(() => router.replace('/(admin)/AdminDashboardScreen'), 400);
+        setTimeout(() => router.replace('/(admin)/(tabs)'), 400);
       } else if (shop.isAuthenticated) {
         setStatusText(`Welcome ${shop.user?.name || 'Customer'}! Launching Store...`);
-        setTimeout(() => router.replace('/(user)/HomeScreen'), 400);
+        setTimeout(() => router.replace('/(user)/(tabs)'), 400);
       } else {
-        setStatusText('Preparing onboarding experience...');
-        setTimeout(() => router.replace('/(auth)/WelcomeScreen'), 400);
+        setStatusText('Please sign in to continue...');
+        setTimeout(() => router.replace('/(auth)/LoginScreen'), 400);
       }
     }, 1200);
 
@@ -64,14 +64,14 @@ export default function SplashScreen() {
           <View style={styles.quickBtnRow}>
             <TouchableOpacity
               style={styles.quickBtn}
-              onPress={() => router.replace('/(user)/HomeScreen')}
+              onPress={() => router.replace('/(user)/(tabs)')}
             >
               <Text style={styles.quickBtnText}>🛍️ Customer Home</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
               style={[styles.quickBtn, styles.adminBtn]}
-              onPress={() => router.replace('/(admin)/AdminDashboardScreen')}
+              onPress={() => router.replace('/(admin)/(tabs)')}
             >
               <Text style={styles.quickBtnText}>🛡️ Admin Portal</Text>
             </TouchableOpacity>

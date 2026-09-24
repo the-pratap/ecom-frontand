@@ -7,11 +7,11 @@ import {
   TouchableOpacity,
   TextInput,
   Image,
-  SafeAreaView,
   StatusBar,
   Dimensions,
   Modal,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { router, useLocalSearchParams, Stack } from 'expo-router';
 import { useShop, Product } from '../ShopStore';
 
@@ -127,7 +127,12 @@ export default function CategoryDetailsScreen() {
           </Text>
         </View>
         <TouchableOpacity
-          onPress={() => router.push('/(user)/CartScreen')}
+          onPress={() =>
+            router.push({
+              pathname: '/(user)/(tabs)',
+              params: { tab: 'cart' },
+            })
+          }
           style={styles.cartIconBtn}
           activeOpacity={0.7}
         >

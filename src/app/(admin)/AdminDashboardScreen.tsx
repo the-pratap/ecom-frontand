@@ -5,11 +5,11 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
-  SafeAreaView,
   StatusBar,
   Dimensions,
   Alert,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { router, Stack } from 'expo-router';
 import { useShop } from '../ShopStore';
 
@@ -65,7 +65,7 @@ export default function AdminDashboardScreen() {
         <View style={styles.headerRightActions}>
           <TouchableOpacity
             style={styles.switchStoreBtn}
-            onPress={() => router.push('/(user)/HomeScreen')}
+            onPress={() => router.push('/(user)/(tabs)')}
             activeOpacity={0.8}
           >
             <Text style={styles.switchStoreText}>🛍️ Store View</Text>
@@ -133,7 +133,7 @@ export default function AdminDashboardScreen() {
         <View style={styles.moduleGrid}>
           <TouchableOpacity
             style={styles.moduleCard}
-            onPress={() => router.push('/(admin)/AdminProductsScreen')}
+            onPress={() => router.push({ pathname: '/(admin)/(tabs)', params: { tab: 'products' } })}
             activeOpacity={0.8}
           >
             <View style={[styles.moduleIconCircle, { backgroundColor: '#F0EEFF' }]}>
@@ -145,7 +145,7 @@ export default function AdminDashboardScreen() {
 
           <TouchableOpacity
             style={styles.moduleCard}
-            onPress={() => router.push('/(admin)/AdminOrdersScreen')}
+            onPress={() => router.push({ pathname: '/(admin)/(tabs)', params: { tab: 'orders' } })}
             activeOpacity={0.8}
           >
             <View style={[styles.moduleIconCircle, { backgroundColor: '#FEF3C7' }]}>
@@ -157,7 +157,7 @@ export default function AdminDashboardScreen() {
 
           <TouchableOpacity
             style={styles.moduleCard}
-            onPress={() => router.push('/(admin)/AdminReviewsScreen')}
+            onPress={() => router.push({ pathname: '/(admin)/(tabs)', params: { tab: 'reviews' } })}
             activeOpacity={0.8}
           >
             <View style={[styles.moduleIconCircle, { backgroundColor: '#DCFCE7' }]}>
@@ -169,7 +169,7 @@ export default function AdminDashboardScreen() {
 
           <TouchableOpacity
             style={styles.moduleCard}
-            onPress={() => router.push('/(admin)/AdminUsersScreen')}
+            onPress={() => router.push({ pathname: '/(admin)/(tabs)', params: { tab: 'users' } })}
             activeOpacity={0.8}
           >
             <View style={[styles.moduleIconCircle, { backgroundColor: '#E0E7FF' }]}>
@@ -184,7 +184,7 @@ export default function AdminDashboardScreen() {
         <View style={styles.sectionHeaderRow}>
           <Text style={styles.sectionHeading}>Recent Customer Orders</Text>
           <TouchableOpacity
-            onPress={() => router.push('/(admin)/AdminOrdersScreen')}
+            onPress={() => router.push({ pathname: '/(admin)/(tabs)', params: { tab: 'orders' } })}
           >
             <Text style={styles.viewAllText}>View All ({shop.orders.length}) →</Text>
           </TouchableOpacity>
@@ -194,7 +194,7 @@ export default function AdminDashboardScreen() {
           <TouchableOpacity
             key={order.id}
             style={styles.orderItemCard}
-            onPress={() => router.push('/(admin)/AdminOrdersScreen')}
+            onPress={() => router.push({ pathname: '/(admin)/(tabs)', params: { tab: 'orders' } })}
             activeOpacity={0.85}
           >
             <View style={styles.orderTop}>
@@ -216,54 +216,6 @@ export default function AdminDashboardScreen() {
           </TouchableOpacity>
         ))}
       </ScrollView>
-
-      {/* Admin Bottom Navigation Bar */}
-      <View style={styles.bottomNav}>
-        <TouchableOpacity
-          style={styles.navItem}
-          onPress={() => router.push('/(admin)/AdminDashboardScreen')}
-          activeOpacity={0.8}
-        >
-          <Text style={[styles.navIcon, styles.activeNavIcon]}>📊</Text>
-          <Text style={[styles.navLabel, styles.activeNavLabel]}>Dashboard</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.navItem}
-          onPress={() => router.push('/(admin)/AdminProductsScreen')}
-          activeOpacity={0.8}
-        >
-          <Text style={styles.navIcon}>📦</Text>
-          <Text style={styles.navLabel}>Products</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.navItem}
-          onPress={() => router.push('/(admin)/AdminOrdersScreen')}
-          activeOpacity={0.8}
-        >
-          <Text style={styles.navIcon}>📋</Text>
-          <Text style={styles.navLabel}>Orders</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.navItem}
-          onPress={() => router.push('/(admin)/AdminReviewsScreen')}
-          activeOpacity={0.8}
-        >
-          <Text style={styles.navIcon}>⭐</Text>
-          <Text style={styles.navLabel}>Reviews</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.navItem}
-          onPress={() => router.push('/(admin)/AdminUsersScreen')}
-          activeOpacity={0.8}
-        >
-          <Text style={styles.navIcon}>👥</Text>
-          <Text style={styles.navLabel}>Users</Text>
-        </TouchableOpacity>
-      </View>
     </SafeAreaView>
   );
 }
@@ -490,44 +442,5 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '800',
     color: '#5B4BFF',
-  },
-  bottomNav: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    height: 64,
-    backgroundColor: '#FFFFFF',
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    borderTopWidth: 1,
-    borderTopColor: '#EBEBEB',
-    elevation: 8,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: -2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 8,
-  },
-  navItem: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingHorizontal: 8,
-  },
-  navIcon: {
-    fontSize: 20,
-    marginBottom: 2,
-  },
-  activeNavIcon: {
-    transform: [{ scale: 1.1 }],
-  },
-  navLabel: {
-    fontSize: 10,
-    fontWeight: '600',
-    color: '#8E8E93',
-  },
-  activeNavLabel: {
-    color: '#5B4BFF',
-    fontWeight: '800',
   },
 });

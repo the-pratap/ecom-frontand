@@ -7,10 +7,10 @@ import {
   TouchableOpacity,
   TextInput,
   Image,
-  SafeAreaView,
   StatusBar,
   Alert,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { router, Stack } from 'expo-router';
 import { useShop, CartItem } from '../ShopStore';
 
@@ -40,7 +40,7 @@ export default function CheckoutScreen() {
     }
     if (shop.cart.length === 0) {
       Alert.alert('Empty Order', 'Your cart has no items.');
-      router.replace('/(user)/HomeScreen');
+      router.replace('/(user)/(tabs)');
       return;
     }
     router.push('/(user)/PaymentScreen');

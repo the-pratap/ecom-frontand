@@ -5,9 +5,9 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
-  SafeAreaView,
   StatusBar,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 
 // ==========================================
@@ -1106,8 +1106,8 @@ interface StoreState {
 }
 
 let storeState: StoreState = {
-  user: DEMO_USER,
-  isAuthenticated: true,
+  user: null,
+  isAuthenticated: false,
   products: DEMO_PRODUCTS,
   categories: DEMO_CATEGORIES,
   cart: [
@@ -1248,7 +1248,11 @@ export function useShop() {
   // Authentication Actions
   const login = (email: string, pass: string): { success: boolean; message: string } => {
     const trimmedEmail = email.trim().toLowerCase();
-    if (trimmedEmail === 'user@shopnest.demo' && pass === '123456') {
+    // User login: 'user' / 'user' (also backward-compatible with demo email)
+    if (
+      (trimmedEmail === 'user' || trimmedEmail === 'user@shopnest.demo') &&
+      (pass === 'user' || pass === '123456')
+    ) {
       updateStore((prev) => ({
         ...prev,
         user: DEMO_USER,
@@ -1256,7 +1260,12 @@ export function useShop() {
       }));
       return { success: true, message: 'Welcome back, Rahul!' };
     }
-    if (trimmedEmail === 'admin@shopnest.demo' && pass === 'admin123') {
+
+    // Admin login: 'admin' / 'admin' (also backward-compatible with demo email)
+    if (
+      (trimmedEmail === 'admin' || trimmedEmail === 'admin@shopnest.demo') &&
+      (pass === 'admin' || pass === 'admin123')
+    ) {
       updateStore((prev) => ({
         ...prev,
         user: DEMO_ADMIN,
@@ -1264,7 +1273,11 @@ export function useShop() {
       }));
       return { success: true, message: 'Welcome Administrator!' };
     }
-    return { success: false, message: 'Invalid credentials. Please verify your email and password.' };
+
+    return {
+      success: false,
+      message: 'Invalid credentials. Use "user" / "user" for customer or "admin" / "admin" for administrator.',
+    };
   };
 
   const logout = () => {
@@ -1803,49 +1816,49 @@ export default function ShopStoreScreen() {
         <View style={styles.btnGrid}>
           <TouchableOpacity
             style={styles.navBtn}
-            onPress={() => router.push('/HomeScreen')}
+            onPress={() => router.push('/(user)/(tabs)')}
           >
-            <Text style={styles.navBtnText}>🏠 Home Screen</Text>
+            <Text style={styles.navBtnText}>🏠 Home (Tabs)</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.navBtn}
-            onPress={() => router.push('/CategoriesScreen')}
+            onPress={() => router.push({ pathname: '/(user)/(tabs)', params: { tab: 'categories' } })}
           >
             <Text style={styles.navBtnText}>📂 Categories</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.navBtn}
-            onPress={() => router.push('/CartScreen')}
+            onPress={() => router.push({ pathname: '/(user)/(tabs)', params: { tab: 'cart' } })}
           >
             <Text style={styles.navBtnText}>🛒 Cart ({shop.cartTotals.totalItems})</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.navBtn}
-            onPress={() => router.push('/WishlistScreen')}
+            onPress={() => router.push({ pathname: '/(user)/(tabs)', params: { tab: 'wishlist' } })}
           >
             <Text style={styles.navBtnText}>💖 Wishlist ({shop.wishlist.length})</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.navBtn}
-            onPress={() => router.push('/OrdersScreen')}
+            onPress={() => router.push('/(user)/OrdersScreen')}
           >
             <Text style={styles.navBtnText}>📦 Orders ({shop.orders.length})</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.navBtn}
-            onPress={() => router.push('/ProfileScreen')}
+            onPress={() => router.push({ pathname: '/(user)/(tabs)', params: { tab: 'profile' } })}
           >
-            <Text style={styles.navBtnText}>👤 Profile ({shop.user?.name})</Text>
+            <Text style={styles.navBtnText}>👤 Profile ({shop.user?.name || 'Guest'})</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.navBtn}
-            onPress={() => router.push('/WelcomeScreen')}
+            onPress={() => router.push('/(admin)/(tabs)')}
           >
-            <Text style={styles.navBtnText}>✨ Welcome Screen</Text>
+            <Text style={styles.navBtnText}>🛡️ Admin (Tabs)</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.navBtn}
-            onPress={() => router.push('/LoginScreen')}
+            onPress={() => router.push('/(auth)/LoginScreen')}
           >
             <Text style={styles.navBtnText}>🔐 Login Screen</Text>
           </TouchableOpacity>

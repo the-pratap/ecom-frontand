@@ -5,10 +5,10 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
-  SafeAreaView,
   StatusBar,
   Dimensions,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { router, Stack } from 'expo-router';
 import { useShop, CategoryItem } from '../ShopStore';
 
@@ -91,68 +91,6 @@ export default function CategoriesScreen() {
           })}
         </View>
       </ScrollView>
-
-      {/* Bottom Navigation */}
-      <View style={styles.bottomNav}>
-        <TouchableOpacity
-          style={styles.navItem}
-          onPress={() => router.push('/(user)/HomeScreen')}
-          activeOpacity={0.8}
-        >
-          <Text style={styles.navIcon}>🏠</Text>
-          <Text style={styles.navLabel}>Home</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.navItem}
-          onPress={() => router.push('/(user)/CategoriesScreen')}
-          activeOpacity={0.8}
-        >
-          <Text style={[styles.navIcon, styles.activeNavIcon]}>📂</Text>
-          <Text style={[styles.navLabel, styles.activeNavLabel]}>Categories</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.navItem}
-          onPress={() => router.push('/(user)/WishlistScreen')}
-          activeOpacity={0.8}
-        >
-          <View>
-            <Text style={styles.navIcon}>💖</Text>
-            {shop.wishlist.length > 0 && (
-              <View style={styles.badge}>
-                <Text style={styles.badgeText}>{shop.wishlist.length}</Text>
-              </View>
-            )}
-          </View>
-          <Text style={styles.navLabel}>Wishlist</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.navItem}
-          onPress={() => router.push('/(user)/CartScreen')}
-          activeOpacity={0.8}
-        >
-          <View>
-            <Text style={styles.navIcon}>🛒</Text>
-            {shop.cartTotals.totalItems > 0 && (
-              <View style={styles.badge}>
-                <Text style={styles.badgeText}>{shop.cartTotals.totalItems}</Text>
-              </View>
-            )}
-          </View>
-          <Text style={styles.navLabel}>Cart</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.navItem}
-          onPress={() => router.push('/(user)/ProfileScreen')}
-          activeOpacity={0.8}
-        >
-          <Text style={styles.navIcon}>👤</Text>
-          <Text style={styles.navLabel}>Profile</Text>
-        </TouchableOpacity>
-      </View>
     </SafeAreaView>
   );
 }
@@ -265,57 +203,5 @@ const styles = StyleSheet.create({
     fontSize: 11,
     fontWeight: '700',
     color: '#5B4BFF',
-  },
-  bottomNav: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    height: 64,
-    backgroundColor: '#FFFFFF',
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    borderTopWidth: 1,
-    borderTopColor: '#EBEBEB',
-    elevation: 8,
-  },
-  navItem: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingHorizontal: 8,
-  },
-  navIcon: {
-    fontSize: 20,
-    marginBottom: 2,
-  },
-  activeNavIcon: {
-    transform: [{ scale: 1.1 }],
-  },
-  navLabel: {
-    fontSize: 10,
-    fontWeight: '600',
-    color: '#8E8E93',
-  },
-  activeNavLabel: {
-    color: '#5B4BFF',
-    fontWeight: '800',
-  },
-  badge: {
-    position: 'absolute',
-    top: -4,
-    right: -10,
-    backgroundColor: '#5B4BFF',
-    borderRadius: 9,
-    minWidth: 16,
-    height: 16,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: 3,
-  },
-  badgeText: {
-    color: '#FFFFFF',
-    fontSize: 9,
-    fontWeight: '800',
   },
 });

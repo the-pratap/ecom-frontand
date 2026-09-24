@@ -5,9 +5,9 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
-  SafeAreaView,
   StatusBar,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { router, useLocalSearchParams, Stack } from 'expo-router';
 import { useShop, Order } from '../ShopStore';
 
@@ -117,7 +117,7 @@ export default function OrderSuccessScreen() {
 
           <TouchableOpacity
             style={styles.homeBtn}
-            onPress={() => router.replace('/(user)/HomeScreen')}
+            onPress={() => router.replace('/(user)/(tabs)')}
             activeOpacity={0.7}
           >
             <Text style={styles.homeBtnText}>Continue Shopping →</Text>

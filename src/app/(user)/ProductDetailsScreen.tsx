@@ -6,11 +6,11 @@ import {
   ScrollView,
   TouchableOpacity,
   Image,
-  SafeAreaView,
   StatusBar,
   Dimensions,
   Alert,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { router, useLocalSearchParams, Stack } from 'expo-router';
 import { useShop, Product } from '../ShopStore';
 
@@ -72,7 +72,14 @@ export default function ProductDetailsScreen() {
       res.message,
       [
         { text: 'Keep Shopping' },
-        { text: 'View Cart 🛒', onPress: () => router.push('/(user)/CartScreen') },
+        {
+          text: 'View Cart 🛒',
+          onPress: () =>
+            router.push({
+              pathname: '/(user)/(tabs)',
+              params: { tab: 'cart' },
+            }),
+        },
       ]
     );
   };
@@ -120,7 +127,12 @@ export default function ProductDetailsScreen() {
           </TouchableOpacity>
 
           <TouchableOpacity
-            onPress={() => router.push('/(user)/CartScreen')}
+            onPress={() =>
+              router.push({
+                pathname: '/(user)/(tabs)',
+                params: { tab: 'cart' },
+              })
+            }
             style={[styles.circleBtn, { marginLeft: 8 }]}
             activeOpacity={0.7}
           >

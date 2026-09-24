@@ -7,10 +7,10 @@ import {
   TouchableOpacity,
   TextInput,
   Image,
-  SafeAreaView,
   StatusBar,
   Dimensions,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { router, Stack } from 'expo-router';
 import { useShop, Product } from '../ShopStore';
 
@@ -277,7 +277,12 @@ export default function SearchScreen() {
                 </Text>
                 <TouchableOpacity
                   style={styles.browseAllBtn}
-                  onPress={() => router.push('/(user)/CategoriesScreen')}
+                  onPress={() =>
+                    router.push({
+                      pathname: '/(user)/(tabs)',
+                      params: { tab: 'categories' },
+                    })
+                  }
                 >
                   <Text style={styles.browseAllText}>Browse All Categories</Text>
                 </TouchableOpacity>

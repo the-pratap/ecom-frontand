@@ -4,12 +4,12 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
-  SafeAreaView,
   StatusBar,
   Image,
   Dimensions,
   ScrollView,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { router, Stack } from 'expo-router';
 
 const { width } = Dimensions.get('window');
@@ -65,7 +65,7 @@ export default function WelcomeScreen() {
 
         <TouchableOpacity
           style={styles.skipButton}
-          onPress={() => router.replace('/(user)/HomeScreen')}
+          onPress={() => router.replace('/(user)/(tabs)')}
           activeOpacity={0.7}
         >
           <Text style={styles.skipText}>Skip</Text>
@@ -140,7 +140,7 @@ export default function WelcomeScreen() {
 
           <TouchableOpacity
             style={styles.guestLink}
-            onPress={() => router.replace('/(user)/HomeScreen')}
+            onPress={() => router.replace('/(user)/(tabs)')}
             activeOpacity={0.7}
           >
             <Text style={styles.guestText}>Continue as Customer Guest →</Text>
@@ -151,7 +151,7 @@ export default function WelcomeScreen() {
         <View style={styles.demoNotice}>
           <Text style={styles.demoNoticeTitle}>Demo Credentials Available</Text>
           <Text style={styles.demoNoticeDesc}>
-            User: user@shopnest.demo (123456) • Admin: admin@shopnest.demo (admin123)
+            User: user / user • Admin: admin / admin
           </Text>
         </View>
       </ScrollView>

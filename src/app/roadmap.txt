@@ -1,0 +1,262 @@
+================================================================================
+          SHOPNEST FULL-STACK LEARNING ROADMAP (FRONTEND + BACKEND + REAL API)
+================================================================================
+Target: Master JavaScript & Modern Full-Stack Development to build 
+        Production-Ready Mobile & Web E-Commerce Applications with Real APIs.
+Generated Based on Real Code Analysis of ShopNest (React Native + Expo v57)
+================================================================================
+
+--------------------------------------------------------------------------------
+1. PROJECT TECHNOLOGY OVERVIEW (CURRENT ARCHITECTURE)
+--------------------------------------------------------------------------------
+- Framework: React Native with Expo Router (v57 SDK)
+- Language: TypeScript / Modern ECMAScript (ES6+)
+- State Management: Custom Publish-Subscribe Observer Pattern + useSyncExternalStore
+- Routing: File-based routing with Expo Router Stack & Dynamic Tabs
+- Layout: Safe Area Context (react-native-safe-area-context)
+- Data Layer: Client-side In-Memory Mock Store (ShopStore.tsx)
+- Missing Link for Production: Real Backend REST API, Database & JWT Authentication
+
+--------------------------------------------------------------------------------
+2. JAVASCRIPT CONCEPTS USED IN ACTUAL CODE (FILE & PURPOSE ANALYSIS)
+--------------------------------------------------------------------------------
+[A] Arrays & Higher-Order Methods (Crucial)
+  - Array.prototype.map():
+      * File: src/app/(user)/HomeScreen.tsx (Lines 308, 317)
+      * File: src/app/(user)/CartScreen.tsx (Line 122)
+      * Purpose: Transform raw data arrays into React UI components.
+  - Array.prototype.filter():
+      * File: src/app/ShopStore.tsx (removeFromCart, wishlist toggle)
+      * File: src/app/(user)/CategoriesScreen.tsx (Line 63)
+      * Purpose: Immutable item deletion and category filtering.
+  - Array.prototype.reduce():
+      * File: src/app/ShopStore.tsx (Lines 79-88)
+      * Purpose: Accumulate subtotal, taxes, delivery, coupon discounts into a single totals object.
+  - Array.prototype.find() & findIndex():
+      * File: src/app/ShopStore.tsx (addToCart, auth verification)
+      * Purpose: Retrieve matching objects by unique IDs or match email/password.
+  - Array.prototype.some():
+      * File: src/app/ShopStore.tsx (isWishlisted check)
+      * Purpose: Efficient boolean existence check without scanning entire array.
+
+[B] Modern Object Operations & Immutability
+  - Spread Operator (...):
+      * File: src/app/ShopStore.tsx (immutable state emits)
+      * File: src/app/(user)/CartScreen.tsx
+      * Purpose: Create new object/array copies without mutating existing memory references.
+  - Object Destructuring:
+      * Across all screen components: { cart, wishlist, products } = useShop()
+      * Purpose: Clean, readable variable extraction.
+  - Optional Chaining (?.) & Nullish Coalescing (?? / ||):
+      * File: src/app/SplashScreen.tsx (Lines 24, 28)
+      * File: src/app/(user)/HomeScreen.tsx (Line 125)
+      * Purpose: Prevent "Cannot read properties of undefined/null" runtime crashes.
+
+[C] Asynchronous JavaScript
+  - Timers (setTimeout / clearTimeout):
+      * File: src/app/SplashScreen.tsx (Lines 19-39)
+      * File: src/app/(auth)/LoginScreen.tsx (Line 39)
+      * Purpose: Simulate network latency and control screen transitions.
+  - Real API Requirement:
+      * Promises, async/await, try/catch/finally, fetch() / axios.
+
+[D] Design Patterns & Architecture
+  - Observer / Pub-Sub Pattern:
+      * File: src/app/ShopStore.tsx (Set<() => void>, subscribe(), emitChange())
+      * Purpose: Cross-screen reactive state distribution without external heavy libraries.
+  - Closures & Custom Hooks:
+      * File: src/app/ShopStore.tsx (useShop() hook wrapping useSyncExternalStore)
+      * Purpose: Encapsulate private state variables and expose public dispatchers.
+
+================================================================================
+3. JAVASCRIPT ROADMAP (FROM ZERO TO PRODUCTION)
+================================================================================
+
+STAGE 1: JAVASCRIPT BASICS (MUST LEARN)
+---------------------------------------
+1. Variables & Scopes: const, let (Avoid var), Block scope vs Function scope.
+2. Data Types: String, Number, Boolean, Null, Undefined, Object, Array.
+3. String Manipulation: Template literals (`Hello ${user}`), .trim(), .toLowerCase(), .includes().
+4. Operators: Strict Equality (=== vs ==), Ternary operator (cond ? a : b), Logical operators (&&, ||, ??).
+5. Functions: Function declarations vs Arrow Functions ( () => {} ), Default parameters, Return values.
+
+STAGE 2: INTERMEDIATE JAVASCRIPT (MUST LEARN)
+---------------------------------------------
+1. Array Methods Mastery: .map(), .filter(), .reduce(), .find(), .some(), .slice(), .includes().
+2. Object Methods & Immutability: Object.keys(), Object.values(), Object.entries(), Shallow copy vs Deep copy.
+3. Destructuring: Array destructuring ([a, b]) and Object destructuring ({ name, price }).
+4. Spread & Rest Operator: ...props, [...array, newItem], { ...state, key: value }.
+5. Error Handling: try { ... } catch (error) { ... } finally { ... }.
+
+STAGE 3: ASYNCHRONOUS JAVASCRIPT (MUST LEARN)
+---------------------------------------------
+1. Event Loop & Callbacks: How JS executes single-threaded async code.
+2. Promises: new Promise((resolve, reject) => ...), .then(), .catch().
+3. async / await: Clean async syntax, handling sequential vs parallel requests with Promise.all().
+4. Fetch API / HTTP: fetch(url, { method, headers, body: JSON.stringify() }), response.json().
+5. JSON: JSON.parse(), JSON.stringify(), handling serializable structures.
+
+STAGE 4: ADVANCED / PRODUCTION JAVASCRIPT (SHOULD LEARN)
+--------------------------------------------------------
+1. Closures & Scope Chain: Maintaining private variables inside function generators.
+2. Modules (ESM): import / export, named vs default exports.
+3. Class & OOP Basics: Models, DTOs, Object-Oriented concepts for Backend.
+4. Set & Map Data Structures: Unique collections, key-value mappings (used in ShopStore listeners).
+5. Debouncing & Throttling: Optimizing search inputs (e.g. SearchScreen search queries).
+
+================================================================================
+4. FRONTEND ROADMAP (REACT NATIVE & MODERN MOBILE APPS)
+================================================================================
+1. Core UI Building Blocks:
+   - View, Text, Image, ScrollView, FlatList (Critical for 100+ items performance).
+   - TextInput, TouchableOpacity, ActivityIndicator, Modal, StatusBar.
+2. Safe Area & Responsive Design:
+   - react-native-safe-area-context (SafeAreaProvider, SafeAreaView, useSafeAreaInsets).
+   - Flexbox layout (flexDirection, justifyContent, alignItems, flex: 1).
+   - Dimensions API / useWindowDimensions.
+3. State & Lifecycle:
+   - useState (Component local state).
+   - useEffect (Side effects, mounting, cleanup).
+   - useMemo & useCallback (Performance optimization).
+   - Custom Hooks (useShop, useAuth).
+4. Routing & Navigation (Expo Router v57):
+   - File-based routing (app directory layout).
+   - Stack Navigator (<Stack />).
+   - Tabs Navigator (<Tabs /> or custom tabs layout).
+   - Dynamic Routes (params: { productId }).
+   - Imperative navigation (router.push, router.replace, router.back).
+5. Real API Integration:
+   - Connecting UI to REST APIs with Axios or Fetch.
+   - Managing 3 UI states for EVERY API call:
+     * Loading State (Skeleton or ActivityIndicator)
+     * Success State (Render UI)
+     * Error State (Retry button / Alert)
+6. Secure Storage:
+   - expo-secure-store (Storing JWT tokens securely on device).
+   - @react-native-async-storage/async-storage (Persisting user preferences).
+
+================================================================================
+5. BACKEND ROADMAP (NODE.JS, EXPRESS & PRODUCTION API)
+================================================================================
+To replace ShopStore.tsx with a production-grade backend:
+
+1. Server Fundamentals (Node.js & Express.js):
+   - Node.js Runtime architecture.
+   - Express app initialization, JSON body parsing middleware (express.json()).
+   - CORS configuration (cors package) for mobile/web requests.
+2. MVC Architecture:
+   - Routes: /api/products, /api/auth, /api/cart, /api/orders.
+   - Controllers: productController.js, authController.js, orderController.js.
+   - Models: Data schemas.
+   - Middlewares: Authentication checks, validation.
+3. Database (Choose One):
+   - Option A: PostgreSQL with Prisma ORM (Recommended for E-Commerce / Financial data).
+   - Option B: MongoDB with Mongoose (Flexible NoSQL document model).
+   - Database operations: CRUD (Create, Read, Update, Delete), Indexing, Foreign Keys.
+4. Authentication & Security:
+   - Password Hashing: bcryptjs (hash passwords before saving to DB).
+   - JWT (JSON Web Tokens): jsonwebtoken package. Sign token on login, verify in middleware.
+   - Authorization Middleware: Protect admin routes (verifyAdmin middleware).
+5. Input Validation:
+   - Zod or Joi schema validation (Ensure emails, prices, IDs are valid before reaching DB).
+6. Environment Variables:
+   - dotenv package (.env file for DB_URL, JWT_SECRET, PORT).
+7. Deployment:
+   - Backend Hosting: Render, Railway, AWS EC2, or DigitalOcean.
+   - Database Hosting: Supabase / Neon (PostgreSQL) or MongoDB Atlas.
+
+================================================================================
+6. REST API BLUEPRINT FOR SHOPNEST
+================================================================================
+[AUTH MODULE]
+- POST /api/auth/register    -> Register user, return JWT token.
+- POST /api/auth/login       -> Authenticate credentials, return JWT + User role.
+- GET  /api/auth/profile     -> Get logged-in user profile (Protected route).
+- PUT  /api/auth/profile     -> Update name, phone, address (Protected route).
+
+[PRODUCT & CATALOG MODULE]
+- GET    /api/products           -> Get all products (with search, category, page query params).
+- GET    /api/products/:id       -> Get single product details + reviews.
+- POST   /api/products           -> (Admin Only) Create new product.
+- PUT    /api/products/:id       -> (Admin Only) Update stock, price, discount.
+- DELETE /api/products/:id       -> (Admin Only) Delete product.
+- GET    /api/categories         -> Get categories list with icons.
+
+[CART & WISHLIST MODULE]
+- GET    /api/cart               -> Get user's active cart.
+- POST   /api/cart/add           -> Add item with variant (color, size, quantity).
+- PUT    /api/cart/update        -> Increment/Decrement item quantity.
+- DELETE /api/cart/remove/:id    -> Remove item from cart.
+- POST   /api/coupons/apply      -> Validate promo code (e.g. WELCOME10) and calculate discount.
+
+[ORDER & PAYMENT MODULE]
+- POST   /api/orders/create      -> Create order from cart items + address + payment mode.
+- GET    /api/orders/my-orders   -> Get customer order history.
+- GET    /api/orders/:id         -> Get specific order timeline and tracking.
+- GET    /api/admin/orders       -> (Admin Only) Get all customer orders.
+- PATCH  /api/admin/orders/:id   -> (Admin Only) Update order status (Pending -> Shipped -> Delivered).
+
+================================================================================
+7. PRIORITY SYSTEM (CLASSIFICATION)
+================================================================================
+[MUST LEARN - Top Priority]
+* JavaScript ES6+ (let/const, Arrow functions, Array methods: map, filter, reduce, find).
+* Destructuring, Spread Operator, Template literals.
+* Async/Await, Promises, and Fetch/Axios.
+* React Native Core components & Flexbox styling.
+* useState, useEffect, and Custom Hook patterns.
+* Node.js + Express REST API creation (CRUD).
+* JWT Authentication & Password Hashing (bcrypt).
+* Database basics (PostgreSQL or MongoDB).
+
+[SHOULD LEARN - High Value]
+* TypeScript interfaces & types (used extensively in this project).
+* Zod / Input validation.
+* State management libraries (Zustand or Redux Toolkit).
+* Error boundary & Global error handling middleware.
+* FlatList optimization for long lists (keyExtractor, getItemLayout).
+* SecureStore / AsyncStorage persistence.
+
+[OPTIONAL - Learn Later]
+* WebSockets / Socket.io (for real-time live delivery tracking).
+* Advanced Redis caching for products.
+* CI/CD pipelines (GitHub Actions).
+* React Native Reanimated (complex fluid animations).
+
+[NOT NEEDED NOW - Skip for this stage]
+* Microservices architecture.
+* Kubernetes / Docker clusters.
+* Complex GraphQL servers.
+* Webpack / Babel low-level configuration.
+
+================================================================================
+8. FINAL ACTIONABLE CHECKLIST
+================================================================================
+[ ] Phase 1: Core JS Mastery
+    [ ] Can write .map(), .filter(), .reduce() without looking at docs.
+    [ ] Understand immutable data updates with spread operator (...).
+    [ ] Confident with Promises and async/await error handling (try/catch).
+
+[ ] Phase 2: Frontend API Connection
+    [ ] Build a service file (api.ts) using axios or fetch.
+    [ ] Replace ShopStore.tsx static arrays with async API calls.
+    [ ] Add loading spinners and error alerts for slow or failed requests.
+    [ ] Save auth token in Expo SecureStore and attach as Bearer Header.
+
+[ ] Phase 3: Backend API Development
+    [ ] Setup Express.js server with nodemon.
+    [ ] Connect to MongoDB or PostgreSQL.
+    [ ] Build User model and Auth routes (register, login with bcrypt + JWT).
+    [ ] Build Product CRUD routes and verify with Postman / Thunder Client.
+    [ ] Build Order placement route with database transaction.
+
+[ ] Phase 4: Production Polish
+    [ ] Add validation on both frontend and backend.
+    [ ] Protect Admin endpoints with role-check middleware.
+    [ ] Deploy backend to Render/Railway and database to Neon/MongoDB Atlas.
+    [ ] Build release APK using EAS Build (eas build -p android --profile preview).
+
+================================================================================
+Summary: Master modern ES6+ JS -> Connect React Native to Express REST API -> 
+Persist data in DB -> Authenticate via JWT. You will be a Production Full-Stack Dev!
+================================================================================

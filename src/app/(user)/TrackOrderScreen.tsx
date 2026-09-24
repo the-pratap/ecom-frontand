@@ -5,10 +5,10 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
-  SafeAreaView,
   StatusBar,
   Alert,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { router, useLocalSearchParams, Stack } from 'expo-router';
 import { useShop, Order } from '../ShopStore';
 
@@ -223,7 +223,7 @@ export default function TrackOrderScreen() {
         {/* Back to Home Button */}
         <TouchableOpacity
           style={styles.backHomeBtn}
-          onPress={() => router.push('/(user)/HomeScreen')}
+          onPress={() => router.push('/(user)/(tabs)')}
           activeOpacity={0.85}
         >
           <Text style={styles.backHomeText}>Return to Home →</Text>

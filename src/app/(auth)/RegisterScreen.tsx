@@ -5,13 +5,13 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
-  SafeAreaView,
   StatusBar,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
   ActivityIndicator,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { router, Stack } from 'expo-router';
 import { useShop } from '../ShopStore';
 
@@ -53,7 +53,7 @@ export default function RegisterScreen() {
     setTimeout(() => {
       setLoading(false);
       shop.updateUserProfile(name, email, phone);
-      router.replace('/(user)/HomeScreen');
+      router.replace('/(user)/(tabs)');
     }, 600);
   };
 

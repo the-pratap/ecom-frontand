@@ -5,13 +5,13 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
-  SafeAreaView,
   StatusBar,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
   ActivityIndicator,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { router, Stack } from 'expo-router';
 import { useShop } from '../ShopStore';
 
@@ -40,10 +40,15 @@ export default function LoginScreen() {
       setLoading(false);
       const res = shop.login(email, password);
       if (res.success) {
-        if (shop.user?.role === 'admin' || email.trim().toLowerCase() === 'admin@shopnest.demo') {
-          router.replace('/(admin)/AdminDashboardScreen');
+        const cleanEmail = email.trim().toLowerCase();
+        if (
+          shop.user?.role === 'admin' ||
+          cleanEmail === 'admin' ||
+          cleanEmail === 'admin@shopnest.demo'
+        ) {
+          router.replace('/(admin)/(tabs)');
         } else {
-          router.replace('/(user)/HomeScreen');
+          router.replace('/(user)/(tabs)');
         }
       } else {
         setErrorMessage(res.message);
@@ -52,14 +57,14 @@ export default function LoginScreen() {
   };
 
   const autofillUser = () => {
-    setEmail('user@shopnest.demo');
-    setPassword('123456');
+    setEmail('user');
+    setPassword('user');
     setErrorMessage('');
   };
 
   const autofillAdmin = () => {
-    setEmail('admin@shopnest.demo');
-    setPassword('admin123');
+    setEmail('admin');
+    setPassword('admin');
     setErrorMessage('');
   };
 
@@ -91,7 +96,7 @@ export default function LoginScreen() {
             </View>
             <Text style={styles.title}>Welcome Back</Text>
             <Text style={styles.subtitle}>
-              Sign in to manage your orders, wishlist, or administrator portal.
+              Sign in with "user" / "user" or "admin" / "admin"
             </Text>
           </View>
 
@@ -105,7 +110,7 @@ export default function LoginScreen() {
                 activeOpacity={0.7}
               >
                 <Text style={styles.demoChipText}>👤 User Demo</Text>
-                <Text style={styles.demoChipSub}>user@shopnest.demo</Text>
+                <Text style={styles.demoChipSub}>user / user</Text>
               </TouchableOpacity>
 
               <TouchableOpacity
@@ -114,7 +119,7 @@ export default function LoginScreen() {
                 activeOpacity={0.7}
               >
                 <Text style={styles.demoChipText}>🛡️ Admin Demo</Text>
-                <Text style={styles.demoChipSub}>admin@shopnest.demo</Text>
+                <Text style={styles.demoChipSub}>admin / admin</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -130,12 +135,11 @@ export default function LoginScreen() {
           {/* Form */}
           <View style={styles.form}>
             <View style={styles.inputGroup}>
-              <Text style={styles.label}>Email Address</Text>
+              <Text style={styles.label}>Username or Email</Text>
               <TextInput
                 style={styles.input}
-                placeholder="name@example.com"
+                placeholder="user or admin"
                 placeholderTextColor="#A0A0A0"
-                keyboardType="email-address"
                 autoCapitalize="none"
                 autoCorrect={false}
                 value={email}
@@ -188,7 +192,7 @@ export default function LoginScreen() {
             {/* Skip / Guest Link */}
             <TouchableOpacity
               style={styles.guestButton}
-              onPress={() => router.replace('/(user)/HomeScreen')}
+              onPress={() => router.replace('/(user)/(tabs)')}
               activeOpacity={0.7}
             >
               <Text style={styles.guestText}>Continue as Customer Guest →</Text>
